@@ -1,5 +1,10 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    dbaccess
+    dbaccess \
+    http \
+    mongodb \
+    server \
+    txverify \
+    testnetworkconsole
 

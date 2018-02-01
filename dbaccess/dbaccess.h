@@ -4,6 +4,7 @@
 #include "dbaccess_global.h"
 #include "iadapter.h"
 #include "../core/block/block.h"
+#include <QByteArray>
 
 class DBACCESSSHARED_EXPORT Dbaccess
 {
@@ -16,6 +17,8 @@ public:
     static Dbaccess *getInstance();
     IAdapter *getAdapter();
     void saveBlock(Block block);
+    bool hasTransaction(QByteArray hash);
+    Header getLastHeader();
 };
 
 #endif // DBACCESS_H

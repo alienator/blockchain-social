@@ -30,8 +30,17 @@ void BlockChain::createGenesis()
     dbaccess->saveBlock(genesis);
 }
 
-/*Header BlockChain::getLastHeader()
+bool BlockChain::hasTransaction(QByteArray hash)
 {
-    //todo: adapter last header
-    //return NULL;
-}*/
+    return dbaccess->hasTransaction(hash);
+}
+
+Header BlockChain::getLastHeader()
+{
+    return dbaccess->getLastHeader();
+}
+
+void BlockChain::saveBlock(Block block)
+{
+    dbaccess->saveBlock(block);
+}

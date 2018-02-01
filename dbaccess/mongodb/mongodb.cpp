@@ -69,3 +69,77 @@ void MongoDB::resetBlocks()
     bson_destroy(command);
     bson_destroy(&reply);
 }
+
+bool MongoDB::hasTransaction(QByteArray hash)
+{
+    bson_error_t error;
+    int64_t count;
+    bson_t *query;
+
+    query = bson_new();
+    BSON_APPEND_UTF8 (query, "tx.txhash", hash.toHex());
+
+    count = mongoc_collection_count(
+                blocks, MONGOC_QUERY_NONE, query, 0, 0,
+                NULL, &error
+                );
+
+    if (count == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+Header MongoDB::getLastHeader()
+{
+    bson_t *query;
+    bson_t *opts;
+    mongoc_cursor_t *cursor;
+    const bson_t *doc;
+    bson_iter_t iter;
+
+    query = bson_new();
+    opts = BCON_NEW(
+                    "limit", BCON_INT64 (1),
+                    "sort", "{", "index", BCON_INT32 (-1), "}",
+                    "projection", "{", "tx", BCON_BOOL(false), "}"
+                    );
+
+    cursor = mongoc_collection_find_with_opts(blocks, query, opts, NULL);
+    mongoc_cursor_next(cursor, &doc);
+
+    Header header;
+    if (bson_iter_init(&iter, doc)) {
+       while (bson_iter_next(&iter)) {
+           const char *key = bson_iter_key(&iter);
+           const bson_value_t *value = bson_iter_value(&iter);
+
+           if (strcmp(key, "hash") == 0) {
+               QString str = QString::fromUtf8(value->value.v_utf8.str);
+               header.setHash(QByteArray::fromHex(str.toLatin1()));
+           }
+
+           else if (strcmp(key, "index") == 0) {
+                header.setIndex(value->value.v_int32);
+           }
+
+           else if (strcmp(key, "timestamp") == 0) {
+                header.setTimestamp(value->value.v_int64);
+           }
+
+           else if (strcmp(key, "previous_hash") == 0) {
+               QString str = QString::fromUtf8(value->value.v_utf8.str);
+               header.setPreviousHash(QByteArray::fromHex(str.toLatin1()));
+           }
+
+           else if (strcmp(key, "merkle_root") == 0) {
+               QString str = QString::fromUtf8(value->value.v_utf8.str);
+                header.setMerkleRoot(QByteArray::fromHex(str.toLatin1()));
+           }
+
+       }
+    }
+
+    return header;
+}

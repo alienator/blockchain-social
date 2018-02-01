@@ -22,6 +22,7 @@ public:
     }
 
     virtual void debug() = 0;
+    bool verify() { return true; }
 };
 
 #endif // ATRANSACTION_H

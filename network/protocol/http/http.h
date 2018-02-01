@@ -3,11 +3,15 @@
 
 #include "http_global.h"
 
+#include <QtNetwork>
+#include <QUrl>
+
 class HTTPSHARED_EXPORT Http
 {
 
 public:
     Http();
+    bool connect();
 };
 
 #endif // HTTP_H

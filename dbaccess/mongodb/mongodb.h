@@ -27,6 +27,8 @@ public:
     void saveTransaction(ATransaction *tx);
     void saveBlock(Block block);
     void resetBlocks();
+    bool hasTransaction(QByteArray hash);
+    Header getLastHeader();
 };
 
 #endif // NODEMONGODB_H

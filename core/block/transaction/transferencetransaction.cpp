@@ -25,11 +25,6 @@ double TransferenceTransaction::getAmount()
     return amount;
 }
 
-bool TransferenceTransaction::verify()
-{
-    return false;
-}
-
 QByteArray TransferenceTransaction::calculateHash()
 {
     QCryptographicHash hash(QCryptographicHash::Sha256);

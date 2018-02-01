@@ -38,11 +38,6 @@ quint32 RegisterTransaction::getSize()
     return size;
 }
 
-bool RegisterTransaction::verify()
-{
-    return false;
-}
-
 QByteArray RegisterTransaction::calculateHash()
 {
     QCryptographicHash hash(QCryptographicHash::Sha256);

@@ -16,7 +16,6 @@ public:
     double getAmount();
     QString getName();
     quint32 getSize();
-    bool verify();
     QByteArray calculateHash();
     void debug();
     virtual ~RegisterTransaction() {}

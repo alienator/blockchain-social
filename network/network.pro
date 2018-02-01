@@ -1,4 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    protocol
+    protocol \
+    node \
+    node

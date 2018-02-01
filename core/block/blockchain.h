@@ -13,8 +13,9 @@ private:
 public:
     static BlockChain* getInstance();
     void createGenesis();
+    bool hasTransaction(QByteArray hash);
     Header getLastHeader();
-    //void saveBlock(Block block);
+    void saveBlock(Block block);
 };
 
 #endif // BLOCKCHAIN_H

@@ -16,7 +16,6 @@ public:
     QByteArray getSource();
     QByteArray getTarget();
     double getAmount();
-    bool verify();
     QByteArray calculateHash();
     quint32 getSize();
     void debug();

@@ -27,3 +27,13 @@ void Dbaccess::saveBlock(Block block)
 {
     adapter->saveBlock(block);
 }
+
+bool Dbaccess::hasTransaction(QByteArray hash)
+{
+    return adapter->hasTransaction(hash);
+}
+
+Header Dbaccess::getLastHeader()
+{
+    return adapter->getLastHeader();
+}
