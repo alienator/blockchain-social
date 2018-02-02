@@ -18,7 +18,7 @@ RemoteClient::RemoteClient(QObject *parent, int socketDescriptor)
 
 void RemoteClient::read()
 {
-    qDebug() << "Process Message and Decide who Payload loads";
+    qDebug() << "Process Message and Decide which Payload loads";
 }
 
 void RemoteClient::write(QByteArray buffer)

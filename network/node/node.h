@@ -7,6 +7,9 @@
 class NODESHARED_EXPORT Node
 {
 
+private:
+    Server server;
+
 public:
     Node();
 };

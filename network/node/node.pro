@@ -27,13 +27,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         node.cpp \
     remoteclient.cpp \
-    server.cpp
+    server.cpp \
+    message.cpp
 
 HEADERS += \
         node.h \
         node_global.h \ 
     remoteclient.h \
-    server.h
+    server.h \
+    apayload.h \
+    message.h
 
 unix {
     target.path = /usr/lib

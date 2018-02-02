@@ -11,13 +11,15 @@ class Server : public QTcpServer
     Q_OBJECT
 
 private:
-    const QString host = "localhost";
+    const QString host = "192.168.1.30";
     const int port = 2397;
 
 public:
     Server();
     void startServer();
-    void incomingConnection(int socketDescriptor);
+
+protected:
+    void incomingConnection(qintptr handle);
 
 };
 

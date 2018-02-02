@@ -6,5 +6,6 @@ SUBDIRS += \
     mongodb \
     server \
     txverify \
-    testnetworkconsole
+    testnetworkconsole \
+    testmessage
 

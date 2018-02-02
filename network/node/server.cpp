@@ -20,11 +20,13 @@ void Server::startServer()
     else
     {
         qDebug() << "Server running on: "
-                 << host << " : " << port;
+                 << this->serverAddress().toString()
+                 << " : "
+                 << this->serverPort();
     }
 }
 
-void Server::incomingConnection(int socketDescriptor)
+void Server::incomingConnection(qintptr handle)
 {
-    RemoteClient *client = new RemoteClient(this, socketDescriptor);
+    RemoteClient *client = new RemoteClient(this, handle);
 }

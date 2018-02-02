@@ -2,6 +2,5 @@
 
 Node::Node()
 {
-    Server server;
     server.startServer();
 }
