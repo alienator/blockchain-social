@@ -4,6 +4,7 @@
 #include <QTcpSocket>
 #include <QObject>
 #include <QThreadPool>
+#include "message.h"
 
 class RemoteClient : public QObject
 {
@@ -17,6 +18,7 @@ signals:
 private:
     QTcpSocket *socket;
     QThreadPool *pool;
+    QDataStream in;
 
 public slots:
     void read();

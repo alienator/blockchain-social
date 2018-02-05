@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QDataStream>
+#include "payload.h"
 
 class Message : public QObject
 {
@@ -20,7 +21,8 @@ private:
 public:
     void setCommand(QString cmd);
     void setPayload(QByteArray payload);
-    QString toString();
+    void debug();
+    void parsePayload();
 
 signals:
 

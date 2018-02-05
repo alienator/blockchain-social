@@ -15,15 +15,21 @@ void Message::setPayload(QByteArray payload)
     this->payload = payload;
 }
 
-QString Message::toString()
+void Message::debug()
 {
-    QString string;
-    string.append("Message[");
-    string.append("command: " + command);
-    string.append(", payload: " + payload);
-    string.append("]");
+    QByteArray pay;
+    qDebug() << "Message["
+             << "command: " << command
+             << ", payload: " << payload
+             << "]";
 
-    return string;
+}
+
+void Message::parsePayload()
+{
+    QDataStream strem(&this->payload, QIODevice::ReadOnly);
+    QString type;
+    qDebug() << type;
 }
 
 QDataStream &operator << (QDataStream &out, const Message &msg)
@@ -34,6 +40,10 @@ QDataStream &operator << (QDataStream &out, const Message &msg)
 
 QDataStream &operator >> (QDataStream &in, Message &msg)
 {
-    in >> msg.command >> msg.payload;
+    QByteArray cmd;
+
+    in >> cmd >> msg.payload;
+    msg.command = QString(cmd);
+
     return in;
 }

@@ -7,5 +7,6 @@ SUBDIRS += \
     server \
     txverify \
     testnetworkconsole \
-    testmessage
+    testmessage \
+    testnetworkasclient
 
