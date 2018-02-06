@@ -50,8 +50,3 @@ unix:!macx: LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lbson-1.0
 
 INCLUDEPATH += $$PWD/../../../../../../usr/local/include/libbson-1.0
 DEPENDPATH += $$PWD/../../../../../../usr/local/include/libbson-1.0
-
-unix:!macx: LIBS += -L$$OUT_PWD/../core/ -lcore
-
-INCLUDEPATH += $$PWD/../core
-DEPENDPATH += $$PWD/../core

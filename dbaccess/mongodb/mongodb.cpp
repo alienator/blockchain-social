@@ -143,3 +143,20 @@ Header MongoDB::getLastHeader()
 
     return header;
 }
+
+quint32 MongoDB::getHeight()
+{
+    bson_error_t error;
+    int64_t count;
+    bson_t *query;
+
+    query = bson_new();
+    //BSON_APPEND_UTF8 (query, "tx.txhash", hash.toHex());
+
+    count = mongoc_collection_count(
+                blocks, MONGOC_QUERY_NONE, query, 0, 0,
+                NULL, &error
+                );
+
+    return count;
+}

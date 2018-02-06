@@ -29,6 +29,7 @@ public:
     void resetBlocks();
     bool hasTransaction(QByteArray hash);
     Header getLastHeader();
+    quint32 getHeight();
 };
 
 #endif // NODEMONGODB_H

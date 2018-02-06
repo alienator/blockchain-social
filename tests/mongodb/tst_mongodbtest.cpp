@@ -14,6 +14,7 @@ public:
 private Q_SLOTS:
     void testHasTransaction();
     void testGetlstHeader();
+    void testGetHeight();
 };
 
 MongodbTest::MongodbTest()
@@ -41,6 +42,12 @@ void MongodbTest::testGetlstHeader()
     Header h = db->getLastHeader();
 
     h.debug();
+}
+
+void MongodbTest::testGetHeight()
+{
+    MongoDB *db = new MongoDB;
+    qDebug() << db->getHeight();
 }
 
 QTEST_APPLESS_MAIN(MongodbTest)

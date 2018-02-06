@@ -48,6 +48,8 @@ void DbaccessTest::testGenesis()
     BlockChain *bc = BlockChain::getInstance();
     bc->createGenesis();
 
+    qDebug() << bc->getHeight();
+
     QVERIFY2(true, "Failure");
 }
 

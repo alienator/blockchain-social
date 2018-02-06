@@ -11,6 +11,7 @@ public:
     virtual void resetBlocks() = 0;
     virtual bool hasTransaction(QByteArray hash) = 0;
     virtual Header getLastHeader() = 0;
+    virtual quint32 getHeight() = 0;
 };
 
 #endif // IADAPTER_H

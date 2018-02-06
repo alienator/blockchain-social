@@ -1,5 +1,5 @@
 #include <QCoreApplication>
-#include "../node/node.h"
+#include "../../network/node/node.h"
 
 int main(int argc, char *argv[])
 {

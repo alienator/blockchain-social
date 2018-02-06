@@ -4,4 +4,5 @@ SUBDIRS += \
     dbaccess \
     core \
     tests \
-    network
+    network \
+    wallet

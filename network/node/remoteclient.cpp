@@ -31,11 +31,21 @@ void RemoteClient::read()
         return;
 
     m.debug();
-    m.parsePayload();
 
+    if (m.getCommand() == "getheight") {
+
+        /*quint32 height = bc->getHeight();
+        write(QByteArray::number(height));*/
+
+    }
+    /*else if (strcmp(m.getCommand(), "tx") == 0) {
+        //LOAD txPayload THREAD
+    }*/
 }
 
 void RemoteClient::write(QByteArray buffer)
 {
-
+    socket->write(buffer);
+    socket->flush();
+    socket->waitForBytesWritten();
 }

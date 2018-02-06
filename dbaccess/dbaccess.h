@@ -19,6 +19,7 @@ public:
     void saveBlock(Block block);
     bool hasTransaction(QByteArray hash);
     Header getLastHeader();
+    quint32 getHeight();
 };
 
 #endif // DBACCESS_H

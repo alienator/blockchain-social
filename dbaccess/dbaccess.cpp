@@ -37,3 +37,7 @@ Header Dbaccess::getLastHeader()
 {
     return adapter->getLastHeader();
 }
+quint32 Dbaccess::getHeight()
+{
+    return adapter->getHeight();
+}

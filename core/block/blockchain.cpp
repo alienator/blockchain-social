@@ -11,8 +11,7 @@
 BlockChain* BlockChain::instance = NULL;
 
 BlockChain::BlockChain()
-{
-    dbaccess = Dbaccess::getInstance();
+{    
 }
 
 BlockChain* BlockChain::getInstance()
@@ -27,20 +26,25 @@ BlockChain* BlockChain::getInstance()
 void BlockChain::createGenesis()
 {
     Genesis genesis;
-    dbaccess->saveBlock(genesis);
+    Dbaccess::getInstance()->saveBlock(genesis);
 }
 
 bool BlockChain::hasTransaction(QByteArray hash)
 {
-    return dbaccess->hasTransaction(hash);
+    return Dbaccess::getInstance()->hasTransaction(hash);
 }
 
 Header BlockChain::getLastHeader()
 {
-    return dbaccess->getLastHeader();
+    return Dbaccess::getInstance()->getLastHeader();
 }
 
 void BlockChain::saveBlock(Block block)
 {
-    dbaccess->saveBlock(block);
+    Dbaccess::getInstance()->saveBlock(block);
+}
+
+quint32 BlockChain::getHeight()
+{
+    return Dbaccess::getInstance()->getHeight();
 }

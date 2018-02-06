@@ -47,3 +47,8 @@ QDataStream &operator >> (QDataStream &in, Message &msg)
 
     return in;
 }
+
+QString Message::getCommand()
+{
+    return command;
+}

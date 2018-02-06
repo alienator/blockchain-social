@@ -21,6 +21,7 @@ private:
 public:
     void setCommand(QString cmd);
     void setPayload(QByteArray payload);
+    QString getCommand();
     void debug();
     void parsePayload();
 

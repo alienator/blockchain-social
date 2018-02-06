@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QThreadPool>
 #include "message.h"
+#include "../../core/block/blockchain.h"
 
 class RemoteClient : public QObject
 {
@@ -19,6 +20,7 @@ private:
     QTcpSocket *socket;
     QThreadPool *pool;
     QDataStream in;
+    BlockChain *bc;
 
 public slots:
     void read();

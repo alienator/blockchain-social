@@ -2,12 +2,13 @@
 #define BLOCKCHAIN_H
 
 #include "header.h"
-#include "../dbaccess/dbaccess.h"
+#include "block.h"
+#include "header.h"
+#include "../../dbaccess/dbaccess.h"
 
 class BlockChain
 {
 private:
-    Dbaccess *dbaccess;
     static BlockChain* instance;
     BlockChain();
 public:
@@ -16,6 +17,7 @@ public:
     bool hasTransaction(QByteArray hash);
     Header getLastHeader();
     void saveBlock(Block block);
+    quint32 getHeight();
 };
 
 #endif // BLOCKCHAIN_H
