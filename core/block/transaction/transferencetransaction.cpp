@@ -2,12 +2,9 @@
 #include <QCryptographicHash>
 #include <QDebug>
 
-TransferenceTransaction::TransferenceTransaction(QByteArray source, QByteArray target, double amount)
+TransferenceTransaction::TransferenceTransaction()
 {
-    this->source = source;
-    this->target = target;
-    this->amount = amount;
-    this->hash = calculateHash();
+    strcpy(this->type, "TRA");
 }
 
 QByteArray TransferenceTransaction::getSource()
@@ -29,9 +26,20 @@ QByteArray TransferenceTransaction::calculateHash()
 {
     QCryptographicHash hash(QCryptographicHash::Sha256);
     hash.addData(this->type);
-    hash.addData(this->source);
-    hash.addData(this->target);
-    hash.addData(QByteArray::number(this->amount));
+
+    QByteArray inputsBytes;
+    for (int i = 0; i < inputs.size(); i++) {
+        inputsBytes.append(inputs[i]->serialize());
+    }
+
+    hash.addData(inputsBytes);
+
+    QByteArray outputsBytes;
+    for (int i = 0; i < outputs.size(); i++) {
+        outputsBytes.append(outputs[i]->serialize());
+    }
+
+    hash.addData(outputsBytes);
 
     return hash.result();
 }
@@ -41,9 +49,8 @@ void TransferenceTransaction::debug()
     qDebug() << "TransferenceTransaction["
              << "hash=" << this->hash.toHex()
              << ", type=" << this->type
-             << ", source=" << this->source.toHex()
-             << ", target=" << this->target.toHex()
-             << ", amount=" << this->amount
+             << ", inputs:" << this->inputs
+             << ", outputs:" << this->outputs
              << "]";
 }
 
@@ -53,8 +60,41 @@ quint32 TransferenceTransaction::getSize()
     size += 3; //type
     size += source.size();
     size += target.size();
+
+    for (int i = 0; i < inputs.size(); i++) {
+        size += inputs[i]->serialize().size();
+    }
+
+    for (int i = 0; i < outputs.size(); i++) {
+        size += outputs[i]->serialize().size();
+    }
+
     size += 8;
 
     return size;
 }
 
+QList<TxOutput *> TransferenceTransaction::getOutputs()
+{
+    return outputs;
+}
+
+QList<TxInput *> TransferenceTransaction::getInputs()
+{
+    return inputs;
+}
+
+void TransferenceTransaction::addInput(TxInput *in)
+{
+    inputs.append(in);
+}
+
+void TransferenceTransaction::addOutput(TxOutput *out)
+{
+    outputs.append(out);
+}
+
+void TransferenceTransaction::setHash(QByteArray hash)
+{
+    this->hash = hash;
+}

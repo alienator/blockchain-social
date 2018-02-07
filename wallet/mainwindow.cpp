@@ -27,3 +27,11 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_btnSend_clicked()
+{
+    QString target = ui->txtTarget->text();
+    double amount = ui->txtAmount->text().toDouble();
+
+
+}

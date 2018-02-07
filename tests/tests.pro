@@ -8,5 +8,7 @@ SUBDIRS += \
     txverify \
     testnetworkconsole \
     testmessage \
-    testnetworkasclient
+    testnetworkasclient \
+    transtransaction \
+    txhistory
 

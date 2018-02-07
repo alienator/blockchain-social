@@ -26,7 +26,8 @@ SOURCES += \
         dbaccess.cpp \
     mongodb/headermongodb.cpp \
     mongodb/mongodb.cpp \
-    mongodb/registertransactionmongodb.cpp
+    mongodb/registertransactionmongodb.cpp \
+    mongodb/transferecetransactionmongodb.cpp
 
 HEADERS += \
         dbaccess.h \
@@ -34,7 +35,8 @@ HEADERS += \
     iadapter.h \
     mongodb/headermongodb.h \
     mongodb/mongodb.h \
-    mongodb/registertransactionmongodb.h
+    mongodb/registertransactionmongodb.h \
+    mongodb/transferecetransactionmongodb.h
 
 unix {
     target.path = /usr/lib

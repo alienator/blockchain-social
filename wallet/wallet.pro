@@ -25,10 +25,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    tx.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    tx.h
 
 FORMS += \
         mainwindow.ui
+
+unix:!macx: LIBS += -L$$OUT_PWD/../core/ -lcore
+
+INCLUDEPATH += $$PWD/../core
+DEPENDPATH += $$PWD/../core
+
+unix:!macx: LIBS += -L$$OUT_PWD/../dbaccess/ -ldbaccess
+
+INCLUDEPATH += $$PWD/../dbaccess
+DEPENDPATH += $$PWD/../dbaccess
+
+unix:!macx: LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lmongoc-1.0
+
+INCLUDEPATH += $$PWD/../../../../../../usr/local/include/libmongoc-1.0
+DEPENDPATH += $$PWD/../../../../../../usr/local/include/libmongoc-1.0
+
+unix:!macx: LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lbson-1.0
+
+INCLUDEPATH += $$PWD/../../../../../../usr/local/include/libbson-1.0
+DEPENDPATH += $$PWD/../../../../../../usr/local/include/libbson-1.0

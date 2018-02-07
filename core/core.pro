@@ -29,7 +29,10 @@ SOURCES += \
     block/block.cpp \
     block/blockchain.cpp \
     block/genesis.cpp \
-    block/header.cpp
+    block/header.cpp \
+    block/transaction/txinput.cpp \
+    block/transaction/txoutput.cpp \
+    block/transaction/txhistory.cpp
 
 HEADERS += \
         core.h \
@@ -42,7 +45,10 @@ HEADERS += \
     block/genesis.h \
     block/header.h \
     asignable.h \
-    iverifiable.h
+    iverifiable.h \
+    block/transaction/txinput.h \
+    block/transaction/txoutput.h \
+    block/transaction/txhistory.h
 
 unix {
     target.path = /usr/lib

@@ -21,6 +21,8 @@ private:
     mongoc_database_t* database;
     mongoc_collection_t* blocks;
 
+    bool connected;
+
 public:
     MongoDB();
     void saveHeader(Header header);
@@ -30,6 +32,9 @@ public:
     bool hasTransaction(QByteArray hash);
     Header getLastHeader();
     quint32 getHeight();
+    bool isConnected();
+
+    QList<Block> outputs(QString address);
 };
 
 #endif // NODEMONGODB_H

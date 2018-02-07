@@ -3,6 +3,7 @@
 
 #include "headermongodb.h"
 #include "registertransactionmongodb.h"
+#include "transferecetransactionmongodb.h"
 
 MongoDB::MongoDB()
 {
@@ -11,6 +12,18 @@ MongoDB::MongoDB()
     client = mongoc_client_new(str.toStdString().c_str());
     database = mongoc_client_get_database(client, DB_NAME.toStdString().c_str());
     blocks = mongoc_client_get_collection(client, DB_NAME.toStdString().c_str(), "blocks");
+
+    //try to connect to mongodb
+    bson_error_t error;
+    bson_t *command, reply;
+    command = BCON_NEW ("ping", BCON_INT32 (1));
+    connected = mongoc_client_command_simple(client, "admin", command, NULL, &reply, &error);
+
+    if (!connected) {
+        /*fprintf (stderr, "%s\n", error.message);
+        return EXIT_FAILURE;*/
+        qDebug() << error.message;
+    }
 }
 
 void MongoDB::saveHeader(Header header)
@@ -48,6 +61,11 @@ void MongoDB::saveBlock(Block block)
         if (strcmp(txa->getType(), "REG") == 0) {
             RegisterTransactionMongoDB txMongo;
             txDoc = txMongo.getDoc(dynamic_cast<RegisterTransaction*>(txa));
+            bson_append_document(&child, "xx", -1, txDoc);
+        }
+        else if (strcmp(txa->getType(), "TRA") == 0) {
+            TransfereceTransactionMongoDb txMongo;
+            txDoc = txMongo.getDoc(dynamic_cast<TransferenceTransaction*>(txa));
             bson_append_document(&child, "xx", -1, txDoc);
         }
     }
@@ -159,4 +177,61 @@ quint32 MongoDB::getHeight()
                 );
 
     return count;
+}
+
+bool MongoDB::isConnected()
+{
+    return connected;
+}
+
+QList<Block> MongoDB::outputs(QString address)
+{
+    bson_t *query;
+    bson_t *opts;
+    mongoc_cursor_t *cursor;
+    const bson_t *doc;
+
+    query = bson_new();
+    BSON_APPEND_UTF8(query, "tx.outputs.address", address.toStdString().c_str());
+    opts = BCON_NEW(
+                    "sort", "{", "index", BCON_INT32 (-1), "}"
+                    );
+
+    cursor = mongoc_collection_find_with_opts(blocks, query, opts, NULL);
+
+    QList<Block> bs;
+    while(mongoc_cursor_next(cursor, &doc)){
+        //header block
+        HeaderMongoDB hmongo;
+        Header header;
+        Block block;
+        header = hmongo.getHeader(doc);
+        block.addHeader(header);
+
+        //tx
+        bson_iter_t iter;
+        bson_iter_init(&iter, doc);
+        bson_iter_find(&iter, "tx");
+        const uint8_t *data = NULL;
+        uint32_t len = 0;
+        bson_iter_array(&iter, &len, &data);
+        bson_t *sub = bson_new_from_data(data, len);
+        bson_iter_t it;
+        bson_iter_init(&it, sub);
+
+        TransfereceTransactionMongoDb txmongo;
+        while (bson_iter_next(&it)) {
+            const uint8_t *dat = NULL;
+            uint32_t le = 0;
+            bson_iter_document(&it, &le, &dat);
+            bson_t *ssub = bson_new_from_data(dat, le);
+
+            block.addTransaction(txmongo.getTx(ssub));
+        }
+
+        bs.append(block);
+        block.debug();
+    }
+
+    return bs;
 }

@@ -9,6 +9,8 @@ class HeaderMongoDB
 public:
     HeaderMongoDB();
     bson_t *getDoc(Header header);
+
+    Header getHeader(const bson_t *doc);
 };
 
 #endif // HEADERMONGODB_H
