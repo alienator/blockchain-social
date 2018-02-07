@@ -230,7 +230,6 @@ QList<Block> MongoDB::outputs(QString address)
         }
 
         bs.append(block);
-        block.debug();
     }
 
     return bs;

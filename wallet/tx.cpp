@@ -1,13 +1,10 @@
 #include "tx.h"
 
-Tx::Tx(QString target, double amount)
+Tx::Tx()
 {
-    this->target = target;
-    this->amount = amount;
 }
 
-TransferenceTransaction Tx::buildTx()
+double Tx::getBalance()
 {
-    //TransferenceTransaction tx;
 
 }

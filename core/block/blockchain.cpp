@@ -48,3 +48,8 @@ quint32 BlockChain::getHeight()
 {
     return Dbaccess::getInstance()->getHeight();
 }
+
+QList<Block> BlockChain::outputs(QString address)
+{
+    return Dbaccess::getInstance()->outputs(address);
+}

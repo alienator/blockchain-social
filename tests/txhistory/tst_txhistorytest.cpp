@@ -25,8 +25,11 @@ void TxhistoryTest::testCase1()
     MongoDB db;
 
     if (db.isConnected()) {
-        db.outputs(address);
-        qDebug() << "conectado";
+        QList<Block> bs = db.outputs(address);
+        qDebug() << bs.size();
+        for (int i = 0; i < bs.size(); i++) {
+            bs.value(i).debug();
+        }
     }
     else {
         qDebug() << "NO conectado";

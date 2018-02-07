@@ -20,6 +20,7 @@ public:
     bool hasTransaction(QByteArray hash);
     Header getLastHeader();
     quint32 getHeight();
+    QList<Block> outputs(QString address);
 };
 
 #endif // DBACCESS_H

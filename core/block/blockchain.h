@@ -18,6 +18,7 @@ public:
     Header getLastHeader();
     void saveBlock(Block block);
     quint32 getHeight();
+    QList<Block> outputs(QString address);
 };
 
 #endif // BLOCKCHAIN_H

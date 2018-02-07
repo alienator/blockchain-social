@@ -7,20 +7,31 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QStandardItemModel *model = new QStandardItemModel(this);
-    QList<QStandardItem *> rows;
-    QList<QStandardItem *> columns;
+    ui->lblPubKey->setText(wallet.getPubKey());
+    ui->lblBalance->setText(QString::number(wallet.getBalance()));
 
-    QStandardItem *h = new QStandardItem("5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9");
-    columns.append(h);
-    columns.append(new QStandardItem("0.025"));
+    QStandardItemModel *model = new QStandardItemModel(this);
+
+    QList<Block> blocks = wallet.getBlocks();
+    for (int i = 0; i < blocks.size(); i++) {
+        QList<QStandardItem *> row;
+
+        TransferenceTransaction *tx = dynamic_cast<TransferenceTransaction *> (blocks.value(i).getTransactions().value(0));
+        QStandardItem *item = new QStandardItem(QString(tx->getHash().toHex()));
+        QStandardItem *value = new QStandardItem(QString::number(tx->getOutputs().value(0)->getValue()));
+        row.append(item);
+        row.append(value);
+        model->appendRow(row);
+    }
 
     model->setColumnCount(2);
-    model->appendRow(columns);        
 
     ui->tableTx->setModel(model);
-    ui->tableTx->setColumnWidth(0, 300);
+    ui->tableTx->setColumnWidth(0, 340);
     ui->tableTx->setColumnWidth(1, 40);
+
+    //get balance tx
+    //get history tx
 }
 
 MainWindow::~MainWindow()

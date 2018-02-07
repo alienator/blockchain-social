@@ -10,5 +10,6 @@ SUBDIRS += \
     testmessage \
     testnetworkasclient \
     transtransaction \
-    txhistory
+    txhistory \
+    testgeensis
 

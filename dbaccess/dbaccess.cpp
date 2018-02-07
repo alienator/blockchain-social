@@ -41,3 +41,8 @@ quint32 Dbaccess::getHeight()
 {
     return adapter->getHeight();
 }
+
+QList<Block> Dbaccess::outputs(QString address)
+{
+    return adapter->outputs(address);
+}
