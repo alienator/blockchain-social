@@ -7,11 +7,19 @@
 class Tx
 {
 private:
-    double balance;
+    QString hash;
+    double value;
+    quint32 state;
 
 public:
     Tx();
-    double getBalance();
+    void setHash(QString hash);
+    void setValue(double value);
+    void setState(quint32 state);
+
+    QString getHash();
+    double getValue();
+    quint32 getState();
 };
 
 #endif // TX_H

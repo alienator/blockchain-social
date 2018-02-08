@@ -56,7 +56,7 @@
       <rect>
        <x>0</x>
        <y>170</y>
-       <width>411</width>
+       <width>431</width>
        <height>80</height>
       </rect>
      </property>
@@ -113,6 +113,44 @@
       </property>
       <property name="textInteractionFlags">
        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="txtPubKey">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>391</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b</string>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="btnUpdateKey">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>50</y>
+        <width>28</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ACtualizar public key (address)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../Imágenes/refresh_yellow.png</normaloff>../../../../Imágenes/refresh_yellow.png</iconset>
       </property>
      </widget>
     </widget>
@@ -174,54 +212,54 @@
       </property>
      </widget>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
        <x>90</x>
-       <y>240</y>
-       <width>131</width>
-       <height>31</height>
+       <y>270</y>
+       <width>214</width>
+       <height>43</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <pointsize>24</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(245, 121, 0);</string>
-     </property>
-     <property name="text">
-      <string>Balance:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lblBalance">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>240</y>
-       <width>131</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>24</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(245, 121, 0);</string>
-     </property>
-     <property name="text">
-      <string>0.025</string>
-     </property>
-     <property name="textInteractionFlags">
-      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="font">
+         <font>
+          <pointsize>24</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(245, 121, 0);</string>
+        </property>
+        <property name="text">
+         <string>Balance:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblBalance">
+        <property name="font">
+         <font>
+          <pointsize>24</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(245, 121, 0);</string>
+        </property>
+        <property name="text">
+         <string>0.025</string>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -292,8 +330,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionSincronizar"/>
-   <addaction name="actionLogout"/>
   </widget>
   <action name="actionLogout">
    <property name="icon">

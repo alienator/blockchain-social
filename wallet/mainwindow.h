@@ -19,10 +19,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    Wallet wallet;
+    QStandardItemModel *model;
+    Wallet *wallet;
 
 private slots:
     void on_btnSend_clicked();
+    void on_wallet_updated(QList<Tx> txs);
 };
 
 #endif // MAINWINDOW_H

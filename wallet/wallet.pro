@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     tx.cpp \
-    wallet.cpp
+    wallet.cpp \
+    mongodb.cpp
 
 HEADERS += \
         mainwindow.h \
     tx.h \
-    wallet.h
+    wallet.h \
+    mongodb.h
 
 FORMS += \
         mainwindow.ui
