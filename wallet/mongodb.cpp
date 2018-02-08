@@ -55,10 +55,10 @@ QList<Tx> MongoDb::loadCredits()
     bson_iter_t iter;
 
     query = bson_new();
-    BSON_APPEND_DOCUMENT_BEGIN (query, "state", &child);
+    /*BSON_APPEND_DOCUMENT_BEGIN (query, "state", &child);
     //BSON_APPEND_INT32(&child, "$ne", 4);
     BSON_APPEND_INT32(&child, "$ne", 3);
-    bson_append_document_end (query, &child);
+    bson_append_document_end (query, &child);*/
 
     opts = BCON_NEW(
                     "sort", "{", "_id", BCON_INT32 (-1), "}"
@@ -113,7 +113,7 @@ void MongoDb::updateState(QString hash, quint32 state)
         qDebug() << error.message;
     }
 
-    mongoc_collection_destroy(transactions);
+    /*mongoc_collection_destroy(transactions);
     mongoc_client_destroy(client);
-    mongoc_cleanup();
+    mongoc_cleanup();*/
 }

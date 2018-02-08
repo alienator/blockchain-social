@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
     wallet->init();
 
     ui->lblPubKey->setText(wallet->getPubKey());
-    ui->lblBalance->setText(QString::number(wallet->getBalance()));
 
     ui->tableTx->setModel(model);
     ui->tableTx->setColumnWidth(0, 340);
@@ -35,11 +34,26 @@ MainWindow::~MainWindow()
 void MainWindow::on_wallet_updated(QList<Tx> txs)
 {
     //QList<Tx> txs = wallet->getCredits();
+    model->clear();
+
     for (int i = 0; i < txs.size(); i++) {
         QList<QStandardItem *> row;
 
         QString strValue = QString::number(txs.value(i).getValue());
-        strValue = (txs.value(i).getState() == 4) ? "-"+strValue : strValue ;
+        quint32 state = txs.value(i).getState();
+        if (state == UNSPENT ||
+            state == SPENT) {
+            //credits
+        }
+        else if (state == SENDED) {
+            //debits
+            strValue = "-" + strValue;
+        }
+        else if (state == CHANGE ||
+                 state == CHANGE_SPENT) {
+            //change are hidden
+            continue;
+        }
 
         QStandardItem *item = new QStandardItem(txs.value(i).getHash());
         QStandardItem *value = new QStandardItem(strValue);
@@ -49,6 +63,12 @@ void MainWindow::on_wallet_updated(QList<Tx> txs)
 
         model->appendRow(row);
     }
+
+    ui->lblBalance->setText(QString::number(wallet->getBalance()));
+
+    ui->tableTx->setModel(model);
+    ui->tableTx->setColumnWidth(0, 340);
+    ui->tableTx->setColumnWidth(1, 40);
 }
 
 void MainWindow::on_btnSend_clicked()

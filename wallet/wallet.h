@@ -20,7 +20,8 @@ enum TxState {
     SPENT = 1,
     LOCK = 2,
     CHANGE = 3,
-    SENDED = 4
+    SENDED = 4,
+    CHANGE_SPENT = 5
 };
 
 class Wallet : public QObject

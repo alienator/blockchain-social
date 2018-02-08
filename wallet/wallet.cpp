@@ -96,13 +96,10 @@ void Wallet::loadTransactions()
     //calculate balance
     balance = 0;
     for (int i = 0; i < credits.size(); i++) {
-        if (credits.value(i).getState() == UNSPENT
-                ||
-                credits.value(i).getState() == SPENT) {
+        quint32 state = credits.value(i).getState();
+        if (state == CHANGE
+            || state == UNSPENT) {
             balance += credits.value(i).getValue();
-        }
-        else if (credits.value(i).getState() == SENDED) {
-            balance -= credits.value(i).getValue();
         }
     }
 
@@ -125,12 +122,17 @@ void Wallet::send(QString target, double value)
 
     //calculate inputs ref
     double inputValue = 0;
-    QList<QString> inputs;
+    QList<Tx> inputs;
     for (int i = 0; i < credits.size(); i++) {
-        inputValue += credits.value(i).getValue();
+        quint32 state = credits.value(i).getState();
+        if (state != UNSPENT &&
+            state != CHANGE) {
+            continue;
+        }
 
+        inputValue += credits.value(i).getValue();
         tx->addInput(new TxInput(QByteArray::fromHex(credits.value(i).getHash().toUtf8()), i));
-        inputs.append(credits.value(i).getHash());
+        inputs.append(credits.value(i));
 
         if (inputValue >= value) {
                 break;
@@ -140,14 +142,6 @@ void Wallet::send(QString target, double value)
     QByteArray address = QByteArray::fromHex(target.toLatin1());
     TxOutput *out = new TxOutput(address, value);
     tx->addOutput(out);
-
-    //calculate cchange
-    TxOutput *change;
-    if (inputValue > value) {
-        change = new TxOutput(QByteArray::fromHex(pubKey.toUtf8()), (inputValue - value));
-        tx->addOutput(change);
-    }
-
     tx->setHash(tx->calculateHash());
 
     Block block;
@@ -164,17 +158,46 @@ void Wallet::send(QString target, double value)
 
     bc->saveBlock(block);
 
-    //save wallet db
     ThisWallet::MongoDb *mongo = new ThisWallet::MongoDb();
-    mongo->saveTransaction(tx->getHash().toHex().toStdString().c_str(), value, SENDED);
-
-    if (inputValue > value) {
-        mongo->saveTransaction(tx->getHash().toHex().toStdString().c_str(), (inputValue - value), CHANGE);
-    }
 
     //update inputs state
     for (int i = 0; i < inputs.size(); i++) {
-        mongo->updateState(inputs.value(i), SPENT);
+        quint32 state = inputs.value(i).getState();
+        if (state == CHANGE) {
+            mongo->updateState(inputs.value(i).getHash(), CHANGE_SPENT);
+        }
+        else {
+            mongo->updateState(inputs.value(i).getHash(), SPENT);
+        }
+    }
+
+    //save wallet db
+    mongo->saveTransaction(tx->getHash().toHex().toStdString().c_str(), value, SENDED);
+
+    //calculate change
+    if (inputValue > value) {
+        TransferenceTransaction *txchange = new TransferenceTransaction();
+        TxOutput *change;
+        change = new TxOutput(QByteArray::fromHex(pubKey.toUtf8()), (inputValue - value));
+        txchange->addOutput(change);
+        txchange->addInput(new TxInput(tx->getHash(), 0));
+        txchange->setHash(txchange->calculateHash());
+
+        Block blockchange;
+        blockchange.addTransaction(txchange);
+
+        Header headerchange;
+        headerchange.setIndex(bc->getLastHeader().getIndex() + 1);
+        headerchange.setMerkleRoot(blockchange.generateMerkleRoot());
+        headerchange.setPreviousHash(bc->getLastHeader().getHash());
+        headerchange.setTimestamp(QDateTime::currentMSecsSinceEpoch());
+        headerchange.setHash(headerchange.calculateHash());
+
+        blockchange.addHeader(headerchange);
+
+        bc->saveBlock(blockchange);
+
+        mongo->saveTransaction(txchange->getHash().toHex().toStdString().c_str(), (inputValue - value), CHANGE);
     }
 
     loadTransactions();
